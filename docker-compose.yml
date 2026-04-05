@@ -1,0 +1,11 @@
+services:
+  aprovador:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - VITE_POCKETBASE_URL=https://db.superapps.com.br
+    container_name: aprovador
+    restart: always
+    ports:
+      - "8086:80"
