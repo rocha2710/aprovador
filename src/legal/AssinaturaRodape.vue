@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 const ano = new Date().getFullYear()
 const el = ref(null)
 const estilo = ref({})
@@ -31,7 +31,7 @@ function alturaBarraFixa() {
   }
   return h
 }
-onMounted(() => {
+function ajustar() {
   const base = fundoDaPagina(el.value.parentElement)
   const escuro = lum(base) < 0.35
   const fundo = escuro ? mix(base, [255, 255, 255], 0.07) : mix(base, [0, 0, 0], 0.06)     // tirinha: 6-7% de diferença
@@ -40,7 +40,11 @@ onMounted(() => {
   dev.value = escuro ? '#ffbd59' : '#a85a00'
   if (contraste(escuro ? [255, 189, 89] : [168, 90, 0], fundo) < 4.5) dev.value = css(texto)
   estilo.value = { background: css(fundo), color: css(texto), paddingBottom: `calc(8px + ${alturaBarraFixa()}px + env(safe-area-inset-bottom, 0px))` }
-})
+}
+// o menu fixo de baixo pode aparecer depois da montagem: mede de novo e quando a tela muda
+let tempos = []
+onMounted(() => { ajustar(); tempos = [300, 1200, 3000].map(ms => setTimeout(ajustar, ms)); window.addEventListener('resize', ajustar) })
+onBeforeUnmount(() => { tempos.forEach(clearTimeout); window.removeEventListener('resize', ajustar) })
 </script>
 
 <template>
