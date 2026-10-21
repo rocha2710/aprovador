@@ -1,3 +1,7 @@
+<script setup>
+import AssinaturaRodape from './legal/AssinaturaRodape.vue'
+</script>
+
 <template>
   <div class="app-wrapper">
     <header class="header">
@@ -20,6 +24,7 @@
       </div>
     </footer>
   </div>
+  <AssinaturaRodape />
 </template>
 
 <style scoped>
