@@ -13,4 +13,4 @@ app.use(createPinia())
 app.use(router)
 
 app.mount('#app')
-
+console.log('Feito por @igor.rosa - superapps.dev')
